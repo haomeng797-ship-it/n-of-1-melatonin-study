@@ -1,0 +1,18 @@
+key,value,description
+desc.control_n,35.0,n control days
+desc.melatonin_n,35.0,n melatonin days
+desc.diff,0.9190476190476033,"mean difference (melatonin - control), 0-100 mood"
+desc.welch_t,0.6964851938801645,Welch t for mean difference
+desc.welch_df,60.586302860364015,Welch df
+desc.welch_p,0.48878861528406803,two-sided p for mean difference
+desc.cohens_d,0.16649180594067692,Cohen's d (pooled)
+tost.ci90_lo,-1.2851239886070887,lower 90% CI of mean difference
+tost.ci90_hi,3.1232192267022953,upper 90% CI of mean difference
+tost.sesoi5.delta,5.0,"SESOI bound in points, +/-5"
+tost.sesoi5.d_bound,0.905784436464838,"SESOI as Cohen's d, +/-5"
+tost.sesoi5.p,0.001498975187896758,TOST p at +/-5
+tost.sesoi5.equivalent,1.0,equivalence established at +/-5 (1/0)
+tost.sesoi3.delta,3.0,"SESOI bound in points, +/-3"
+tost.sesoi3.d_bound,0.5434706618789028,"SESOI as Cohen's d, +/-3"
+tost.sesoi3.p,0.05999975979600215,TOST p at +/-3
+tost.sesoi3.equivalent,0.0,equivalence established at +/-3 (1/0)
