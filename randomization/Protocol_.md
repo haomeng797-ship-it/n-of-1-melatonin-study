@@ -30,7 +30,7 @@ prompt takes approximately 8–12 seconds to complete.
 
 ## 3. Output
 
-Each Shortcut run appends one row to `data/Miura_Data.csv` with an
+Each Shortcut run appends one row to `data/miura_ema_70day.csv` with an
 ISO-8601 timestamp:
 
 ```
