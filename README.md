@@ -17,7 +17,7 @@ model; idiographic; personal science; intensive longitudinal data; affect dynami
 
 ## Manuscript
 
-All versions are in [`paper/`](paper/) (latest: v8).
+All versions are in [`paper/`](paper/) (latest: v9).
 
 ## Repository layout
 
