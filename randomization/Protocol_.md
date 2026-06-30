@@ -30,8 +30,9 @@ prompt takes approximately 8–12 seconds to complete.
 
 ## 3. Output
 
-Each Shortcut run appends one row to `data/miura_ema_70day.csv` with an
-ISO-8601 timestamp:
+Each Shortcut run appends one row, with an ISO-8601 timestamp, to a CSV on the
+device (`Miura_Data.csv`); this raw log is cleaned and stored in the repo as
+`data/miura_ema_70day.csv`:
 
 ```
 timestamp,                  mood, agency, metacog, mel, override
