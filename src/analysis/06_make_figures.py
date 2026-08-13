@@ -196,16 +196,19 @@ values = [dR2.loc["melatonin",     "deltaR2"] * 100,
           dR2.loc["metacognition", "deltaR2"] * 100]
 labels = ["Melatonin\n(external probe)", "Agency\n(internal)", "Metacognition\n(internal)"]
 colors = [ACTIVE, CONTROL, METACOG]
-fig, ax = plt.subplots(figsize=(7, 4.2), dpi=120)
-bars = ax.bar(labels, values, color=colors, edgecolor="white", linewidth=1.4, width=0.6)
+fig, ax = plt.subplots(figsize=(6.2, 3.6), dpi=120)
+bars = ax.bar(labels, values, color=colors, width=0.38, zorder=3)
 for bar, val in zip(bars, values):
-    ax.text(bar.get_x() + bar.get_width()/2, val + 0.5,
-            f"{val:.2f}%", ha="center", va="bottom", fontsize=10, fontweight="bold")
-ax.set_ylabel("Incremental R² (drop-one, %)")
-ax.set_ylim(0, max(values) * 1.18)
+    ax.text(bar.get_x() + bar.get_width()/2, val + 0.45,
+            f"{val:.2f}%", ha="center", va="bottom", fontsize=9.5, color="#333333")
+ax.set_ylabel("Incremental R² (drop-one, %)", fontsize=10)
+ax.set_ylim(0, max(values) * 1.16)
 ax.set_title("Variance in daily mood explained by each predictor,\n"
-             "over and above the AR(1) baseline", fontsize=11, loc="left")
-ax.grid(axis="y", alpha=0.25)
+             "over and above the AR(1) baseline", fontsize=10.5, loc="left", color="#222222")
+ax.grid(axis="y", alpha=0.18, zorder=0)
+ax.spines["left"].set_visible(False)
+ax.spines["bottom"].set_color("#999999")
+ax.tick_params(axis="both", labelsize=9.5, length=0)
 plt.tight_layout()
 plt.savefig(FIG_DIR / "fig3_delta_r2.png", dpi=120, bbox_inches="tight")
 plt.close()
