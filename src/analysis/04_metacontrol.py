@@ -41,5 +41,14 @@ sd_meta = sub["metacognition"].std()
 b_mel = m.params["melatonin"]
 b_int = m.params["mel_x_meta"]
 print("\nSimple melatonin slopes:")
-for offset, label in [(-sd_meta, "-1 SD metacog"), (0, "mean metacog"), (sd_meta, "+1 SD metacog")]:
-    print(f"  at {label:>14}: {b_mel + b_int * offset:+.3f}")
+slopes = []
+for offset, label, key in [(-sd_meta, "-1 SD metacog", "minus1sd"),
+                           (0, "mean metacog", "mean"),
+                           (sd_meta, "+1 SD metacog", "plus1sd")]:
+    val = b_mel + b_int * offset
+    print(f"  at {label:>14}: {val:+.3f}")
+    slopes.append((f"slope.melatonin_at_{key}", val, f"melatonin simple slope at {label}"))
+slopes.append(("slope.sd_metacognition", sd_meta,
+               "SD of daily metacognition used to define the +/-1 SD points"))
+pd.DataFrame(slopes, columns=["key", "value", "description"]).to_csv(
+    OUT_DIR / "metacontrol_simple_slopes.csv", index=False)

@@ -1,0 +1,5 @@
+key,value,description
+slope.melatonin_at_minus1sd,0.6474534801921008,melatonin simple slope at -1 SD metacog
+slope.melatonin_at_mean,0.14277224395531007,melatonin simple slope at mean metacog
+slope.melatonin_at_plus1sd,-0.36190899228148066,melatonin simple slope at +1 SD metacog
+slope.sd_metacognition,3.654935438001431,SD of daily metacognition used to define the +/-1 SD points

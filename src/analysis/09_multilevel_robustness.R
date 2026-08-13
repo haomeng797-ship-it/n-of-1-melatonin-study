@@ -1,7 +1,7 @@
 # 09_multilevel_robustness.R
 #
 # Multilevel (mixed-effects) robustness model reported in Sections 2.5.10 and
-# 3.7 of the manuscript (Table 3). Reproduces, from outputs/clean_obs.csv:
+# 3.4 of the manuscript (Table B.1). Reproduces, from outputs/clean_obs.csv:
 #
 #   mood_ij = g00 + g10*agency_ij + g20*metacognition_ij + g30*melatonin_j
 #             + u0j + e_ij,        u0j ~ N(0, tau00),  e_ij ~ N(0, sigma^2)
@@ -9,7 +9,7 @@
 # Momentary EMA observations (i) nested within study day (j); agency and
 # metacognition grand-mean-centered; melatonin a day-level 0/1 indicator;
 # random intercept for day. Restricted to the Day 18-70 window. ICC is taken
-# from unconditional models on the full 195-observation sample and on the
+# from unconditional models on the full analytic sample and on the
 # Day 18-70 window. Marginal/conditional R^2 follow Nakagawa & Schielzeth
 # (computed directly from the variance components, no extra packages).
 #
@@ -44,7 +44,7 @@ mc_m <- mean(win$metacognition)
 win$agency_c <- win$agency - ag_m
 win$meta_c   <- win$metacognition - mc_m
 
-# ---------- Conditional model (Table 3) ----------
+# ---------- Conditional model (Table B.1) ----------
 m <- lmer(mood ~ agency_c + meta_c + melatonin + (1 | study_day),
           data = win, REML = TRUE)
 fe <- summary(m)$coefficients                       # Estimate, SE, df, t, Pr(>|t|)
@@ -59,7 +59,7 @@ varF <- var(Xb)
 R2m  <- varF / (varF + tau + sig)                   # marginal
 R2c  <- (varF + tau) / (varF + tau + sig)           # conditional
 
-# ---------- Table 3 (paste straight in) ----------
+# ---------- Table B.1 (paste straight in) ----------
 rows <- c("(Intercept)", "agency_c", "meta_c", "melatonin")
 labs <- c("Intercept", "Agency (centered)", "Metacognition (centered)", "Melatonin")
 pfmt <- function(p) ifelse(p < .001, "< .001", sub("^0", "", sprintf("%.3f", p)))
@@ -75,7 +75,7 @@ write.csv(tab, "outputs/multilevel_table.csv", row.names = FALSE)
 
 stats <- data.frame(
   key = c("n_obs", "n_groups", "n_control_days", "n_melatonin_days",
-          "icc_full_195", "icc_window_day18_70",
+          "icc_full_sample", "icc_window_day18_70",
           "random_intercept_var", "residual_var",
           "marginal_R2", "conditional_R2", "center_agency", "center_metacog"),
   value = c(nrow(win), length(unique(win$study_day)),
@@ -89,6 +89,6 @@ stats <- data.frame(
 write.csv(stats, "outputs/multilevel_fit_stats.csv", row.names = FALSE)
 writeLines(capture.output(sessionInfo()), "outputs/multilevel_sessionInfo.txt")
 
-cat("\n=== Table 3 (paste into manuscript) ===\n"); print(tab)
-cat("\n=== Fit statistics (Table 3 note) ===\n"); print(stats)
+cat("\n=== Table B.1 (paste into manuscript) ===\n"); print(tab)
+cat("\n=== Fit statistics (Table B.1 note) ===\n"); print(stats)
 cat("\nWrote outputs/multilevel_table.csv, outputs/multilevel_fit_stats.csv\n")

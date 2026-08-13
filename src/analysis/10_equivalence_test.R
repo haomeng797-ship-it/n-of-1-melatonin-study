@@ -1,7 +1,7 @@
 # 10_equivalence_test.R
 #
 # Two one-sided tests (TOST) equivalence test for the melatonin mean effect on
-# daily mood, reported in Sections 2.5.11 and 3.4 of the manuscript. Complements
+# daily mood, reported in Sections 2.5.10 and 3.3 of the manuscript. Complements
 # the between-condition Welch test by asking whether the effect is small enough
 # to be declared equivalent to zero within a pre-specified bound (SESOI).
 # Reports SESOI = +/-5 points (primary; the smallest practically meaningful

@@ -125,6 +125,8 @@ rows = [
     ("statedep.phi_control",      phi_ctrl,                            "AR(1) phi for control days"),
     ("statedep.phi_melatonin",    phi_mel,                             "AR(1) phi for melatonin days"),
     ("statedep.lag_x_mel.beta",   m_sd.params["lag1_x_mel"],           "lag1 x melatonin interaction beta"),
+    ("statedep.lag_x_mel.ci_lo",  ci2.loc["lag1_x_mel", 0],            "95% CI lower for lag1 x mel interaction"),
+    ("statedep.lag_x_mel.ci_hi",  ci2.loc["lag1_x_mel", 1],            "95% CI upper for lag1 x mel interaction"),
     ("statedep.lag_x_mel.p",      m_sd.pvalues["lag1_x_mel"],          "p for lag1 x mel interaction"),
 ]
 pd.DataFrame(rows, columns=["key", "value", "description"]).to_csv(

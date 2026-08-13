@@ -1,6 +1,6 @@
 """
 02b_ar1_obslevel.py
-Obs-level AR(1) on momentary mood (n = 195 EMA pings, timestamp-ordered).
+Obs-level AR(1) on momentary mood (scheduled EMA pings, timestamp-ordered).
 Also computes the full-sample day-level AR(1) coefficient (n = 70).
 
 Run from repo root:
@@ -55,4 +55,9 @@ pd.DataFrame({
     "phi":             [phi_obs, phi_day_full],
     "half_life_steps": [half_obs, half_day],
     "physical_unit":   [f"{half_obs*median_gap_h:.1f} hours", f"{half_day:.2f} days"],
+    "step_hours":      [median_gap_h, 24.0],
+    "n_lag1_pairs":    [int(m_o.nobs), int(m_d.nobs)],
+    "ci_lo":           [m_o.conf_int().loc["mood_lag1", 0], m_d.conf_int().loc["mood_lag1", 0]],
+    "ci_hi":           [m_o.conf_int().loc["mood_lag1", 1], m_d.conf_int().loc["mood_lag1", 1]],
+    "p":               [m_o.pvalues["mood_lag1"], m_d.pvalues["mood_lag1"]],
 }).to_csv(OUT_DIR / "phi_halflife.csv", index=False)

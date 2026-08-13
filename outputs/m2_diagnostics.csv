@@ -1,0 +1,11 @@
+key,value,description
+resid.ljungbox_p_lag1,0.1571768756896234,"M2 residuals, Ljung-Box p at lag 1"
+resid.ljungbox_p_lag5,0.5273463691099443,"M2 residuals, Ljung-Box p at lag 5"
+resid.ljungbox_p_lag10,0.354026978164947,"M2 residuals, Ljung-Box p at lag 10"
+resid.shapiro_W,0.9769473895428827,"M2 residuals, Shapiro-Wilk W"
+resid.shapiro_p,0.39305666294207,"M2 residuals, Shapiro-Wilk p"
+collin.condition_number,2.223499709983183,Condition number of the standardized M2 predictor matrix
+collin.vif_mood_lag1,1.4780054440735384,Variance inflation factor for mood_lag1 in M2
+collin.vif_melatonin,1.0179118772335007,Variance inflation factor for melatonin in M2
+collin.vif_agency,1.5079751627473057,Variance inflation factor for agency in M2
+collin.vif_metacognition,1.7260052990526558,Variance inflation factor for metacognition in M2

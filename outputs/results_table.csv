@@ -1,7 +1,9 @@
 key,value,description
+compliance.raw_log_records,195,Records in the archived raw EMA log
+compliance.excluded_records,2,Unscheduled records excluded from analysis
 compliance.planned_obs,210,Planned EMA pings (70 days x 3)
-compliance.actual_obs,195,Recorded EMA pings
-compliance.rate_pct,92.86,Compliance rate (%)
+compliance.analytic_obs,193,Scheduled observations analysed
+compliance.rate_pct,91.9,Scheduled-response compliance (%)
 compliance.days_covered,70,Study days with at least one mood ping
 compliance.days_with_agency_metacog,53,Days with agency + metacog (added Day 18)
 desc.control.n_days,35,control: number of days
@@ -12,70 +14,70 @@ desc.control.agency.sd,4.5,control: SD of daily agency
 desc.control.metacognition.mean,79.39,control: mean of daily metacognition
 desc.control.metacognition.sd,3.98,control: SD of daily metacognition
 desc.melatonin.n_days,35,melatonin: number of days
-desc.melatonin.mood.mean,77.59,melatonin: mean of daily mood
-desc.melatonin.mood.sd,4.45,melatonin: SD of daily mood
-desc.melatonin.agency.mean,78.5,melatonin: mean of daily agency
-desc.melatonin.agency.sd,3.19,melatonin: SD of daily agency
-desc.melatonin.metacognition.mean,80.17,melatonin: mean of daily metacognition
-desc.melatonin.metacognition.sd,3.25,melatonin: SD of daily metacognition
-primary.delta_daily_mood,0.92,Daily-mood difference: melatonin minus control
-primary.welch_t,0.696,Welch t-statistic for daily mood
-primary.welch_p,0.489,Welch p-value (two-sided)
-primary.cohens_d,0.166,Cohen's d for daily-mood between-condition contrast
-ar1.phi_obs,0.231,"Obs-level AR(1) phi (between EMA pings, ~6h apart)"
-ar1.phi_day,0.341,"Day-level AR(1) phi (M0 baseline, Day 18-70 subsample)"
+desc.melatonin.mood.mean,77.53,melatonin: mean of daily mood
+desc.melatonin.mood.sd,4.42,melatonin: SD of daily mood
+desc.melatonin.agency.mean,78.48,melatonin: mean of daily agency
+desc.melatonin.agency.sd,3.18,melatonin: SD of daily agency
+desc.melatonin.metacognition.mean,80.11,melatonin: mean of daily metacognition
+desc.melatonin.metacognition.sd,3.32,melatonin: SD of daily metacognition
+primary.delta_daily_mood,0.86,Daily-mood difference: melatonin minus control
+primary.welch_t,0.656,Welch t-statistic for daily mood
+primary.welch_p,0.514,Welch p-value (two-sided)
+primary.cohens_d,0.157,Cohen's d for daily-mood between-condition contrast
+ar1.phi_obs,0.226,"Obs-level AR(1) phi (between EMA pings, ~6h apart)"
+ar1.phi_day,0.33,"Day-level AR(1) phi (M0 baseline, Day 18-70 subsample)"
 ar1.halflife_obs_steps,0.47,Obs-level half-life (in EMA steps)
 ar1.halflife_obs_hours,2.9,Obs-level half-life (hours)
-ar1.halflife_day,0.64,"Day-level half-life (days, from M0 phi)"
-M2.mood_lag1.beta,-0.144,M2 beta for mood_lag1
-M2.mood_lag1.ci,"[-0.358, 0.070]",M2 95% CI for mood_lag1
-M2.mood_lag1.p,0.1815,M2 p for mood_lag1
-M2.melatonin.beta,-0.066,M2 beta for melatonin
-M2.melatonin.ci,"[-1.371, 1.239]",M2 95% CI for melatonin
-M2.melatonin.p,0.9193,M2 p for melatonin
-M2.agency.beta,0.526,M2 beta for agency
-M2.agency.ci,"[0.320, 0.732]",M2 95% CI for agency
+ar1.halflife_day,0.63,"Day-level half-life (days, from M0 phi)"
+M2.mood_lag1.beta,-0.151,M2 beta for mood_lag1
+M2.mood_lag1.ci,"[-0.362, 0.060]",M2 95% CI for mood_lag1
+M2.mood_lag1.p,0.1559,M2 p for mood_lag1
+M2.melatonin.beta,-0.092,M2 beta for melatonin
+M2.melatonin.ci,"[-1.385, 1.200]",M2 95% CI for melatonin
+M2.melatonin.p,0.8862,M2 p for melatonin
+M2.agency.beta,0.521,M2 beta for agency
+M2.agency.ci,"[0.317, 0.725]",M2 95% CI for agency
 M2.agency.p,0.0,M2 p for agency
-M2.metacognition.beta,0.453,M2 beta for metacognition
-M2.metacognition.ci,"[0.215, 0.691]",M2 95% CI for metacognition
-M2.metacognition.p,0.0004,M2 p for metacognition
-fit.M0_AR1.R2,0.116,R^2 for M0_AR1
-fit.M0_AR1.adj_R2,0.099,Adjusted R^2 for M0_AR1
-fit.M1_AR1+mel.R2,0.125,R^2 for M1_AR1+mel
-fit.M1_AR1+mel.adj_R2,0.09,Adjusted R^2 for M1_AR1+mel
-fit.M2_full.R2,0.641,R^2 for M2_full
-fit.M2_full.adj_R2,0.611,Adjusted R^2 for M2_full
-deltaR2.melatonin,0.0001,Incremental R^2: melatonin (drop-one)
-deltaR2.agency,0.1968,Incremental R^2: agency (drop-one)
-deltaR2.metacognition,0.1099,Incremental R^2: metacognition (drop-one)
-deltaR2.internal,0.5152,Incremental R^2: internal block (agency+metacog joint)
-kalman.sigma_v2,17.396,Local-level state-space: sigma_v2
-kalman.sigma_w2,1.091,Local-level state-space: sigma_w2
-kalman.snr,0.063,Local-level state-space: snr
-kalman.loglik,-205.531,Local-level state-space: loglik
-kalman.AIC,415.062,Local-level state-space: AIC
-metacontrol.beta,-0.132,Metacontrol interaction (melatonin x metacog_centered)
-metacontrol.ci,"[-0.591, 0.326]",95% CI for metacontrol interaction
-metacontrol.p,0.564,p-value for metacontrol interaction
+M2.metacognition.beta,0.459,M2 beta for metacognition
+M2.metacognition.ci,"[0.227, 0.692]",M2 95% CI for metacognition
+M2.metacognition.p,0.0002,M2 p for metacognition
+fit.M0_AR1.R2,0.109,R^2 for M0_AR1
+fit.M0_AR1.adj_R2,0.091,Adjusted R^2 for M0_AR1
+fit.M1_AR1+mel.R2,0.116,R^2 for M1_AR1+mel
+fit.M1_AR1+mel.adj_R2,0.081,Adjusted R^2 for M1_AR1+mel
+fit.M2_full.R2,0.644,R^2 for M2_full
+fit.M2_full.adj_R2,0.614,Adjusted R^2 for M2_full
+deltaR2.melatonin,0.0002,Incremental R^2: melatonin (drop-one)
+deltaR2.agency,0.1959,Incremental R^2: agency (drop-one)
+deltaR2.metacognition,0.1173,Incremental R^2: metacognition (drop-one)
+deltaR2.internal,0.5279,Incremental R^2: internal block (agency+metacog joint)
+kalman.sigma_v2,17.504,Local-level state-space: sigma_v2
+kalman.sigma_w2,1.048,Local-level state-space: sigma_w2
+kalman.snr,0.06,Local-level state-space: snr
+kalman.loglik,-205.558,Local-level state-space: loglik
+kalman.AIC,415.116,Local-level state-space: AIC
+metacontrol.beta,-0.138,Metacontrol interaction (melatonin x metacog_centered)
+metacontrol.ci,"[-0.588, 0.312]",95% CI for metacontrol interaction
+metacontrol.p,0.54,p-value for metacontrol interaction
 var.day_sd_control,6.413,Day-level SD of daily mood (control)
-var.day_sd_melatonin,4.451,Day-level SD of daily mood (melatonin)
-var.day_levene_W,1.943,Day-level Brown-Forsythe Levene W
-var.day_levene_p,0.168,Day-level Brown-Forsythe Levene p
+var.day_sd_melatonin,4.425,Day-level SD of daily mood (melatonin)
+var.day_levene_W,2.071,Day-level Brown-Forsythe Levene W
+var.day_levene_p,0.155,Day-level Brown-Forsythe Levene p
 var.obs_sd_control,8.263,Obs-level SD of mood (control)
-var.obs_sd_melatonin,6.544,Obs-level SD of mood (melatonin)
-var.obs_levene_W,1.769,Obs-level Brown-Forsythe Levene W
-var.obs_levene_p,0.185,Obs-level Brown-Forsythe Levene p
+var.obs_sd_melatonin,6.548,Obs-level SD of mood (melatonin)
+var.obs_levene_W,1.808,Obs-level Brown-Forsythe Levene W
+var.obs_levene_p,0.18,Obs-level Brown-Forsythe Levene p
 var.mssd_control_mean,88.26,Mean MSSD across control runs
-var.mssd_melatonin_mean,57.35,Mean MSSD across melatonin runs
+var.mssd_melatonin_mean,57.36,Mean MSSD across melatonin runs
 var.mssd_welch_t,-0.94,Welch t for MSSD (mel vs control)
 var.mssd_welch_p,0.355,Welch p for MSSD
-var.het_alpha1,-1.106,Log-variance regression: melatonin coef (negative = mel reduces resid var)
-var.het_alpha1_ci,"[-2.312, 0.100]",95% CI for log-variance coef
-var.het_alpha1_p,0.071,p for log-variance coef
-interaction.ag_x_mel.beta,-0.048,agency_centered x melatonin interaction beta
-interaction.ag_x_mel.ci,"[-0.410, 0.314]",95% CI for agency x mel interaction
-interaction.ag_x_mel.p,0.791,p for agency x mel interaction
-statedep.phi_control,0.48,AR(1) phi for control days
-statedep.phi_melatonin,0.225,AR(1) phi for melatonin days
-statedep.lag_x_mel.beta,-0.255,lag1 x melatonin interaction beta
-statedep.lag_x_mel.p,0.343,p for lag1 x mel interaction
+var.het_alpha1,-1.237,Log-variance regression: melatonin coef (negative = mel reduces resid var)
+var.het_alpha1_ci,"[-2.929, 0.456]",95% CI for log-variance coef
+var.het_alpha1_p,0.149,p for log-variance coef
+interaction.ag_x_mel.beta,-0.056,agency_centered x melatonin interaction beta
+interaction.ag_x_mel.ci,"[-0.416, 0.304]",95% CI for agency x mel interaction
+interaction.ag_x_mel.p,0.756,p for agency x mel interaction
+statedep.phi_control,0.468,AR(1) phi for control days
+statedep.phi_melatonin,0.215,AR(1) phi for melatonin days
+statedep.lag_x_mel.beta,-0.253,lag1 x melatonin interaction beta
+statedep.lag_x_mel.p,0.35,p for lag1 x mel interaction

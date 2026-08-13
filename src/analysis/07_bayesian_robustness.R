@@ -14,8 +14,8 @@
 #   intercept      ~ Student-t(3, 0, 2.5)
 #   sigma          ~ Exponential(1)
 #
-# To run from the repo root (github_release/):
-#   setwd("/path/to/github_release")
+# To run from the repo root:
+#   setwd("/path/to/n-of-1-melatonin-study")
 #   source("src/analysis/07_bayesian_robustness.R")
 
 suppressPackageStartupMessages({
@@ -111,10 +111,10 @@ print(summ_meta, n = Inf)
 write.csv(summ_meta, "outputs/bayesian_metacontrol_posterior_summary.csv", row.names = FALSE)
 saveRDS(fit_meta, "outputs/bayesian_metacontrol_fit.rds")
 
-# ---------- Table-ready summaries (map directly to manuscript Table 2 / Sec 3.6) ----------
+# ---------- Table-ready summaries (reported in the repository, cited from Section 3.4) ----------
 fmt_ci <- function(lo, hi) sprintf("[%.2f, %.2f]", lo, hi)
 
-# Table 2: primary Bayesian M2
+# Primary Bayesian M2
 m2_map <- c(b_Intercept = "Intercept", b_lag_mood_z = "mood_t-1 (z)",
             b_melatonin = "melatonin", b_agency_z = "agency (z)",
             b_metacognition_z = "metacognition (z)", sigma = "sigma")
@@ -128,13 +128,13 @@ m2_table <- data.frame(
   ESS_bulk    = round(tt$ess_bulk)
 )
 write.csv(m2_table, "outputs/bayesian_m2_table.csv", row.names = FALSE)
-cat("\n=== Table 2 (paste into manuscript) ===\n"); print(m2_table)
+cat("\n=== Bayesian M2 summary ===\n"); print(m2_table)
 
-# Sec 3.6 secondary: melatonin x metacognition interaction
+# Secondary: melatonin x metacognition interaction
 int_var <- grep("^b_melatonin.*metacognition_z$", summ_meta$variable, value = TRUE)
 if (length(int_var) == 1) {
   r <- summ_meta[summ_meta$variable == int_var, ]
-  cat(sprintf("\nMetacontrol interaction (Sec 3.6): beta = %.2f, 95%% CrI %s, Pr(beta<0) = %.2f\n",
+  cat(sprintf("\nMetacontrol interaction: beta = %.2f, 95%% CrI %s, Pr(beta<0) = %.2f\n",
               r$mean, fmt_ci(r$`2.5%`, r$`97.5%`), 1 - r$pr_gt_0))
 }
 
@@ -143,7 +143,7 @@ writeLines(capture.output(sessionInfo()), "outputs/bayesian_sessionInfo.txt")
 
 cat("\nDone. Output files written to outputs/:\n")
 cat("  bayesian_m2_posterior_summary.csv\n")
-cat("  bayesian_m2_table.csv              <- paste straight into Table 2\n")
+cat("  bayesian_m2_table.csv              <- Bayesian M2 summary table\n")
 cat("  bayesian_metacontrol_posterior_summary.csv\n")
 cat("  bayesian_m2_fit.rds / bayesian_metacontrol_fit.rds\n")
 cat("  bayesian_sessionInfo.txt\n")

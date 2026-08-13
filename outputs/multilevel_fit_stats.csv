@@ -1,0 +1,13 @@
+"key","value"
+"n_obs",142
+"n_groups",53
+"n_control_days",27
+"n_melatonin_days",26
+"icc_full_sample",0.314
+"icc_window_day18_70",0.253
+"random_intercept_var",0.48
+"residual_var",12.93
+"marginal_R2",0.5
+"conditional_R2",0.52
+"center_agency",77.94
+"center_metacog",79.57

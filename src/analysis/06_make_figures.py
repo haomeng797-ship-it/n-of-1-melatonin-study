@@ -20,6 +20,10 @@ import statsmodels.api as sm
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR   = REPO_ROOT / "outputs"
+# 200 dpi keeps the embedded figures at print quality; the manuscript places
+# them at roughly 5.5 inches wide, giving about 330 effective dpi on the page.
+DPI = 200
+
 FIG_DIR   = REPO_ROOT / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -42,7 +46,7 @@ ACCENT  = "#F2B807"
 METACOG = "#DFB55A"
 
 # ---- Figure 1: Daily mood timeseries ----
-fig, ax = plt.subplots(figsize=(10, 4.2), dpi=120)
+fig, ax = plt.subplots(figsize=(10, 4.2), dpi=DPI)
 ax.plot(day["study_day"], day["mood"], color=NEUTRAL, linewidth=0.9, alpha=0.5)
 for cond, c, lbl in [("control", CONTROL, "Control"),
                      ("melatonin", ACTIVE,  "Active (melatonin)")]:
@@ -60,11 +64,11 @@ ax.set_title("Daily Mood Over the 70-Day N-of-1 Study", fontsize=13, pad=12)
 ax.legend(loc="lower right", framealpha=0.9, fontsize=9.5)
 ax.grid(axis="y", alpha=0.25)
 plt.tight_layout()
-plt.savefig(FIG_DIR / "fig1_daily_mood_timeseries.png", dpi=120, bbox_inches="tight")
+plt.savefig(FIG_DIR / "fig1_daily_mood_timeseries.png", dpi=DPI, bbox_inches="tight")
 plt.close()
 
 # ---- Figure 2: Momentary mood across all EMA observations ----
-fig, ax = plt.subplots(figsize=(10, 4.2), dpi=120)
+fig, ax = plt.subplots(figsize=(10, 4.2), dpi=DPI)
 for cond, c, lbl in [("control", CONTROL, "Control"),
                      ("melatonin", ACTIVE,  "Active (melatonin)")]:
     m = obs["condition"] == cond
@@ -80,11 +84,11 @@ ax.set_title("Momentary Mood Across All EMA Observations", fontsize=13, pad=12)
 ax.legend(loc="lower right", framealpha=0.9, fontsize=9.5)
 ax.grid(axis="y", alpha=0.25)
 plt.tight_layout()
-plt.savefig(FIG_DIR / "fig2_ema_timeseries.png", dpi=120, bbox_inches="tight")
+plt.savefig(FIG_DIR / "fig2_ema_timeseries.png", dpi=DPI, bbox_inches="tight")
 plt.close()
 
 # ---- Figure 3: Condition comparison boxplots ----
-fig, axes = plt.subplots(1, 3, figsize=(11, 4.4), dpi=120)
+fig, axes = plt.subplots(1, 3, figsize=(11, 4.4), dpi=DPI)
 for ax, var, lbl in zip(axes, ["mood", "agency", "metacognition"],
                         ["Daily Mood", "Daily Agency", "Daily Metacognition"]):
     ctrl = day.loc[day.condition == "control",   var].dropna().values
@@ -109,7 +113,7 @@ axes[0].set_ylabel("Score (0–100)")
 fig.suptitle("Active vs. Control Condition Comparison (Day-Level Means)",
              fontsize=12.5, y=1.02)
 plt.tight_layout()
-plt.savefig(FIG_DIR / "fig7_condition_comparison.png", dpi=120, bbox_inches="tight")
+plt.savefig(FIG_DIR / "fig7_condition_comparison.png", dpi=DPI, bbox_inches="tight")
 plt.close()
 
 # ---- Figure 4: Day-level lag-1 autocorrelation ----
@@ -118,7 +122,7 @@ d["mood_lag1"] = d["mood"].shift(1)
 sub = d.dropna(subset=["mood_lag1"])
 m = sm.OLS(sub["mood"], sm.add_constant(sub["mood_lag1"])).fit()
 phi = m.params["mood_lag1"]
-fig, ax = plt.subplots(figsize=(6.5, 6), dpi=120)
+fig, ax = plt.subplots(figsize=(6.5, 6), dpi=DPI)
 ax.scatter(sub["mood_lag1"], sub["mood"], s=46, color=NEUTRAL,
            alpha=0.7, edgecolor="white", linewidth=0.6, zorder=3)
 xx = np.linspace(sub["mood_lag1"].min() - 2, sub["mood_lag1"].max() + 2, 100)
@@ -132,12 +136,12 @@ ax.set_title("Day-Level Lag-1 Autocorrelation\n(Approximate Emotional Inertia)",
 ax.legend(loc="upper left", framealpha=0.9, fontsize=10)
 ax.grid(alpha=0.25)
 plt.tight_layout()
-plt.savefig(FIG_DIR / "fig4_lag1_autocorrelation.png", dpi=120, bbox_inches="tight")
+plt.savefig(FIG_DIR / "fig4_lag1_autocorrelation.png", dpi=DPI, bbox_inches="tight")
 plt.close()
 
 # ---- Figure 5: Kalman latent state ----
 ssm = pd.read_csv(OUT_DIR / "kalman_trajectory.csv")
-fig, ax = plt.subplots(figsize=(9, 4.2), dpi=120)
+fig, ax = plt.subplots(figsize=(9, 4.2), dpi=DPI)
 for cond, c in [("control", CONTROL), ("melatonin", ACTIVE)]:
     m = ssm["condition"] == cond
     ax.scatter(ssm.loc[m, "study_day"], ssm.loc[m, "y"],
@@ -155,20 +159,23 @@ ax.set_title("Kalman-smoothed latent affective state, 70-day window",
              fontsize=12, loc="left")
 ax.legend(loc="lower right", framealpha=0.9, fontsize=9)
 plt.tight_layout()
-plt.savefig(FIG_DIR / "fig6_kalman_latent_state.png", dpi=120, bbox_inches="tight")
+plt.savefig(FIG_DIR / "fig6_kalman_latent_state.png", dpi=DPI, bbox_inches="tight")
 plt.close()
 
 # ---- Figure 6: IRF decay ----
-# Use the full-sample day-level phi from fig4 above
-phi_obs = 0.231  # from 02b_ar1_obslevel.py
+# Use the full-sample day-level phi from fig4 above. The observation-level phi
+# and the median between-prompt gap are read from 02b's saved output rather than
+# copied in, so this figure can never drift from the estimates it plots.
+_phl = pd.read_csv(OUT_DIR / "phi_halflife.csv", index_col=0)
+phi_obs = float(_phl.loc["obs", "phi"])
 phi_day = phi
-median_gap_h = 6.17
+median_gap_h = float(_phl.loc["obs", "step_hours"])
 h = np.arange(0, 8)
 irf_obs = phi_obs ** h
 irf_day = phi_day ** h
 half_obs = np.log(0.5) / np.log(phi_obs)
 half_day = np.log(0.5) / np.log(phi_day)
-fig, axes = plt.subplots(1, 2, figsize=(10, 4), dpi=120)
+fig, axes = plt.subplots(1, 2, figsize=(10, 4), dpi=DPI)
 for ax, (h_, irf, p_, half, color, xlbl, hlbl, title) in zip(axes, [
     (h, irf_obs, phi_obs, half_obs, ACTIVE, "Lag (EMA pings, ~6 h apart)",
      f"half-life = {half_obs:.2f} steps\n(~{half_obs*median_gap_h:.1f} hours)",
@@ -186,7 +193,7 @@ for ax, (h_, irf, p_, half, color, xlbl, hlbl, title) in zip(axes, [
 plt.suptitle("Impulse response and half-life of an affective perturbation",
              fontsize=12, y=1.02)
 plt.tight_layout()
-plt.savefig(FIG_DIR / "fig5_irf_decay.png", dpi=120, bbox_inches="tight")
+plt.savefig(FIG_DIR / "fig5_irf_decay.png", dpi=DPI, bbox_inches="tight")
 plt.close()
 
 # ---- Figure 7: Incremental R^2 ----
@@ -196,7 +203,7 @@ values = [dR2.loc["melatonin",     "deltaR2"] * 100,
           dR2.loc["metacognition", "deltaR2"] * 100]
 labels = ["Melatonin\n(external probe)", "Agency\n(internal)", "Metacognition\n(internal)"]
 colors = [ACTIVE, CONTROL, METACOG]
-fig, ax = plt.subplots(figsize=(6.2, 3.6), dpi=120)
+fig, ax = plt.subplots(figsize=(6.2, 3.6), dpi=DPI)
 bars = ax.bar(labels, values, color=colors, width=0.38, zorder=3)
 for bar, val in zip(bars, values):
     ax.text(bar.get_x() + bar.get_width()/2, val + 0.45,
@@ -210,7 +217,7 @@ ax.spines["left"].set_visible(False)
 ax.spines["bottom"].set_color("#999999")
 ax.tick_params(axis="both", labelsize=9.5, length=0)
 plt.tight_layout()
-plt.savefig(FIG_DIR / "fig3_delta_r2.png", dpi=120, bbox_inches="tight")
+plt.savefig(FIG_DIR / "fig3_delta_r2.png", dpi=DPI, bbox_inches="tight")
 plt.close()
 
 print(f"All 7 figures saved to {FIG_DIR}/")

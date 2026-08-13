@@ -23,6 +23,7 @@ OUT_DIR   = REPO_ROOT / "outputs"
 
 day = pd.read_csv(OUT_DIR / "clean_day.csv")
 day["mood_lag1"] = day["mood"].shift(1)
+day["mood_lag2"] = day["mood"].shift(2)
 
 sub = day.dropna(subset=["mood", "mood_lag1", "agency", "metacognition", "melatonin"]).copy()
 sub = sub.reset_index(drop=True)
@@ -85,10 +86,73 @@ print("\n=== Incremental Delta R^2 (drop-one within M2) ===")
 for k, v in dR2.items():
     print(f"  {k:48s} {v:.4f}")
 
-# Residual diagnostics
+# ---------------------------------------------------------------------------
+# Lag-order sensitivity on the SAME Day 18-70 window as M0-M2.
+#
+# The series-level check in 11_ar_order_check.R answers a different question,
+# namely which lag order describes the whole 70-day mood series. The primary
+# models are estimated on Day 18-70, so the lag order that justifies them has
+# to be evaluated on that window too. Every fit below uses the same OLS
+# machinery and the same 53 rows, so the AIC/BIC values are comparable to each
+# other and to M0-M2 above. The second lag is available for the whole window
+# because mood is observed on all 70 days (Day 18 takes Day 16 as its lag-2).
+# ---------------------------------------------------------------------------
+assert sub["mood_lag2"].notna().all(), "mood_lag2 missing inside the Day 18-70 window"
+
+m0_ar2, t0b = fit(y, sub[["mood_lag1", "mood_lag2"]], "M0_AR2")
+m2_ar2, t2b = fit(
+    y, sub[["mood_lag1", "mood_lag2", "melatonin", "agency", "metacognition"]], "M2_AR2"
+)
+
+pd.concat([t0b, t2b], ignore_index=True).to_csv(
+    OUT_DIR / "ar_order_same_window.csv", index=False)
+
+pd.DataFrame({
+    "model": ["M0_AR1", "M0_AR2", "M2_AR1", "M2_AR2"],
+    "n":     [int(m.nobs)     for m in (m0, m0_ar2, m2, m2_ar2)],
+    "R2":    [m.rsquared      for m in (m0, m0_ar2, m2, m2_ar2)],
+    "adj_R2":[m.rsquared_adj  for m in (m0, m0_ar2, m2, m2_ar2)],
+    "aic":   [m.aic           for m in (m0, m0_ar2, m2, m2_ar2)],
+    "bic":   [m.bic           for m in (m0, m0_ar2, m2, m2_ar2)],
+}).to_csv(OUT_DIR / "ar_order_fit_comparison.csv", index=False)
+
+print("\n=== Lag-order sensitivity, same Day 18-70 window ===")
+print("Outcome-only AR(2):")
+print(t0b.to_string(index=False))
+print("\nM2 + second lag:")
+print(t2b.to_string(index=False))
+print(f"\nM2   AR(1): AIC = {m2.aic:.2f}, BIC = {m2.bic:.2f}, R2 = {m2.rsquared:.3f}")
+print(f"M2   AR(2): AIC = {m2_ar2.aic:.2f}, BIC = {m2_ar2.bic:.2f}, R2 = {m2_ar2.rsquared:.3f}")
+
+# Residual diagnostics and collinearity, persisted so that every diagnostic
+# quoted in Section 3.2 and the Table 1 note can be checked from outputs/.
 from statsmodels.stats.diagnostic import acorr_ljungbox
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 from scipy import stats
 lb = acorr_ljungbox(m2.resid, lags=[1, 5, 10], return_df=True)
 sw_W, sw_p = stats.shapiro(m2.resid)
 print(f"\nM2 residuals — Ljung-Box p (lags 1,5,10): {lb['lb_pvalue'].values}")
 print(f"M2 residuals — Shapiro-Wilk W = {sw_W:.3f}, p = {sw_p:.3f}")
+
+M2_X = ["mood_lag1", "melatonin", "agency", "metacognition"]
+_Xc = sm.add_constant(sub[M2_X])
+vifs = {c: variance_inflation_factor(_Xc.values, i)
+        for i, c in enumerate(_Xc.columns) if c != "const"}
+_Z = (sub[M2_X] - sub[M2_X].mean()) / sub[M2_X].std()
+cond_number = float(np.linalg.cond(_Z.values))
+
+diag = [("resid.ljungbox_p_lag1",  float(lb["lb_pvalue"].iloc[0]), "M2 residuals, Ljung-Box p at lag 1"),
+        ("resid.ljungbox_p_lag5",  float(lb["lb_pvalue"].iloc[1]), "M2 residuals, Ljung-Box p at lag 5"),
+        ("resid.ljungbox_p_lag10", float(lb["lb_pvalue"].iloc[2]), "M2 residuals, Ljung-Box p at lag 10"),
+        ("resid.shapiro_W", float(sw_W), "M2 residuals, Shapiro-Wilk W"),
+        ("resid.shapiro_p", float(sw_p), "M2 residuals, Shapiro-Wilk p"),
+        ("collin.condition_number", cond_number,
+         "Condition number of the standardized M2 predictor matrix")]
+diag += [(f"collin.vif_{k}", float(v), f"Variance inflation factor for {k} in M2")
+         for k, v in vifs.items()]
+pd.DataFrame(diag, columns=["key", "value", "description"]).to_csv(
+    OUT_DIR / "m2_diagnostics.csv", index=False)
+
+print("\nM2 collinearity — VIF: "
+      + ", ".join(f"{k} {v:.3f}" for k, v in vifs.items())
+      + f" | condition number {cond_number:.3f}")

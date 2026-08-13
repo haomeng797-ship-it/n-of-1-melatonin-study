@@ -43,10 +43,17 @@ half_obs_hours = float(str(phl.loc["obs", "physical_unit"]).split()[0])
 def ci(term, frame):
     return f"[{frame.loc[term, 'ci_lo']:.3f}, {frame.loc[term, 'ci_hi']:.3f}]"
 
+excluded = pd.read_csv(OUT_DIR / "excluded_observations.csv")
+
 rows = [
-    ("compliance.planned_obs", 210, "Planned EMA pings (70 days x 3)"),
-    ("compliance.actual_obs", len(obs), "Recorded EMA pings"),
-    ("compliance.rate_pct", round(len(obs) / 210 * 100, 2), "Compliance rate (%)"),
+    ("compliance.raw_log_records", len(obs) + len(excluded),
+     "Records in the archived raw EMA log"),
+    ("compliance.excluded_records", len(excluded),
+     "Unscheduled records excluded from analysis"),
+    ("compliance.planned_obs", 3 * len(day), "Planned EMA pings (70 days x 3)"),
+    ("compliance.analytic_obs", len(obs), "Scheduled observations analysed"),
+    ("compliance.rate_pct", round(len(obs) / (3 * len(day)) * 100, 2),
+     "Scheduled-response compliance (%)"),
     ("compliance.days_covered", len(day), "Study days with at least one mood ping"),
     ("compliance.days_with_agency_metacog", int(day["agency"].notna().sum()),
      "Days with agency + metacog (added Day 18)"),

@@ -1,25 +1,27 @@
 key,value,description
 var.day_sd_control,6.413294868767757,Day-level SD of daily mood (control)
-var.day_sd_melatonin,4.451084488966464,Day-level SD of daily mood (melatonin)
-var.day_levene_W,1.9428648670401405,Day-level Brown-Forsythe Levene W
-var.day_levene_p,0.16789633303549698,Day-level Brown-Forsythe Levene p
+var.day_sd_melatonin,4.424530550039778,Day-level SD of daily mood (melatonin)
+var.day_levene_W,2.071475532056788,Day-level Brown-Forsythe Levene W
+var.day_levene_p,0.15466380512014571,Day-level Brown-Forsythe Levene p
 var.obs_sd_control,8.26251214098142,Obs-level SD of mood (control)
-var.obs_sd_melatonin,6.5440123730127775,Obs-level SD of mood (melatonin)
-var.obs_levene_W,1.7692210037606693,Obs-level Brown-Forsythe Levene W
-var.obs_levene_p,0.18504818588071897,Obs-level Brown-Forsythe Levene p
+var.obs_sd_melatonin,6.548039378993271,Obs-level SD of mood (melatonin)
+var.obs_levene_W,1.8078671830946438,Obs-level Brown-Forsythe Levene W
+var.obs_levene_p,0.18035889406310324,Obs-level Brown-Forsythe Levene p
 var.mssd_control_mean,88.26333333333334,Mean MSSD across control runs
-var.mssd_melatonin_mean,57.35134575569359,Mean MSSD across melatonin runs
-var.mssd_welch_t,-0.9403505975670124,Welch t for MSSD (mel vs control)
-var.mssd_welch_p,0.354731826809391,Welch p for MSSD
-var.het_alpha1,-1.1058630372523306,Log-variance regression: melatonin coef
-var.het_alpha1_ci_lo,-2.311736462285782,95% CI lower for log-variance coef
-var.het_alpha1_ci_hi,0.10001038778112092,95% CI upper for log-variance coef
-var.het_alpha1_p,0.0714296370872354,p for log-variance coef
-interaction.ag_x_mel.beta,-0.04800569149239664,agency_centered x melatonin interaction beta
-interaction.ag_x_mel.ci_lo,-0.4103022939749503,95% CI lower for agency x mel interaction
-interaction.ag_x_mel.ci_hi,0.31429091099015705,95% CI upper for agency x mel interaction
-interaction.ag_x_mel.p,0.7909714278751729,p for agency x mel interaction
-statedep.phi_control,0.47955825707472616,AR(1) phi for control days
-statedep.phi_melatonin,0.22487036238898322,AR(1) phi for melatonin days
-statedep.lag_x_mel.beta,-0.25468789468574293,lag1 x melatonin interaction beta
-statedep.lag_x_mel.p,0.34305699123077077,p for lag1 x mel interaction
+var.mssd_melatonin_mean,57.36376811594204,Mean MSSD across melatonin runs
+var.mssd_welch_t,-0.9399921077783632,Welch t for MSSD (mel vs control)
+var.mssd_welch_p,0.35491313348951126,Welch p for MSSD
+var.het_alpha1,-1.2366148068111134,Log-variance regression: melatonin coef
+var.het_alpha1_ci_lo,-2.9289512463397447,95% CI lower for log-variance coef
+var.het_alpha1_ci_hi,0.45572163271751776,95% CI upper for log-variance coef
+var.het_alpha1_p,0.1485238813250037,p for log-variance coef
+interaction.ag_x_mel.beta,-0.05591011784408029,agency_centered x melatonin interaction beta
+interaction.ag_x_mel.ci_lo,-0.41604433837909416,95% CI lower for agency x mel interaction
+interaction.ag_x_mel.ci_hi,0.3042241026909336,95% CI upper for agency x mel interaction
+interaction.ag_x_mel.p,0.7561798147807076,p for agency x mel interaction
+statedep.phi_control,0.46760376487113664,AR(1) phi for control days
+statedep.phi_melatonin,0.21509136300433607,AR(1) phi for melatonin days
+statedep.lag_x_mel.beta,-0.2525124018668006,lag1 x melatonin interaction beta
+statedep.lag_x_mel.ci_lo,-0.7901639261589493,95% CI lower for lag1 x mel interaction
+statedep.lag_x_mel.ci_hi,0.2851391224253481,95% CI upper for lag1 x mel interaction
+statedep.lag_x_mel.p,0.3498956778197586,p for lag1 x mel interaction
