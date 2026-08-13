@@ -45,12 +45,22 @@ python src/analysis/08_results_table.py                # assemble results_table.
 python src/analysis/06_make_figures.py                 # regenerate the figures
 ```
 
-Three robustness analyses run in R (≥ 4.1):
+Robustness analyses run in R (≥ 4.1):
 
 ```r
-source("src/analysis/07_bayesian_robustness.R")    # Bayesian M2 (brms)     -> Table B1
-source("src/analysis/09_multilevel_robustness.R")  # mixed-effects (lme4)   -> Table B2
+source("src/analysis/09_multilevel_robustness.R")  # mixed-effects (lme4)   -> Table B.1
 source("src/analysis/10_equivalence_test.R")       # TOST equivalence       -> §3.3
+source("src/analysis/11_ar_order_check.R")         # AR(1) vs AR(2)         -> §2.5.1
+source("src/analysis/07_bayesian_robustness.R")    # Bayesian M2 (brms), reported here only
+```
+
+The Bayesian re-estimation reproduces the same ordering as the multilevel model. It is
+kept in this repository and referenced from the manuscript rather than tabulated there.
+
+Verify the archived randomization schedule against the protocol constraints:
+
+```r
+source("randomization/verify_schedule.R")          # 35/35 days, no run > 2
 ```
 
 Every number in the manuscript can be recovered from `outputs/`. The fig1–fig4 PNGs are
