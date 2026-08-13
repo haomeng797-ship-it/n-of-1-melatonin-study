@@ -18,8 +18,9 @@ model; idiographic; personal science; intensive longitudinal data; affect dynami
 
 ## Manuscript
 
-The manuscript is [`paper/manuscript.docx`](paper/manuscript.docx). Secondary and
-robustness analyses are in Appendices A to C at the end of the same file.
+The manuscript is [`paper/paper_submission_2026-08-13.pdf`](paper/paper_submission_2026-08-13.pdf),
+with the Word source alongside it at [`paper/paper_submission_2026-08-13.docx`](paper/paper_submission_2026-08-13.docx).
+Secondary and robustness analyses are in Appendices A to C at the end of the same file.
 
 ## Repository layout
 
@@ -29,7 +30,7 @@ robustness analyses are in Appendices A to C at the end of the same file.
 - `src/analysis/`: analysis scripts `01`–`11` (run order below)
 - `outputs/`: cleaned frames (`clean_obs.csv`, n = 193, and `clean_day.csv`), the two records the inclusion rule drops (`excluded_observations.csv`), model tables, and `results_table.csv` (the consolidated headline numbers). Diagnostics quoted in the paper have their own files: `m2_diagnostics.csv` (VIF, condition number, residual tests), `ar_order_same_window.csv` and `ar_order_fit_comparison.csv` (Day 18–70 lag order), `ar_order_by_resolution.csv` (Appendix A), `metacontrol_simple_slopes.csv`, `equivalence_tost.csv`, `multilevel_table.csv` and `multilevel_fit_stats.csv`
 - `figures/`: seven figures from `06_make_figures.py` plus `equivalence_tost_plot.png` from `10_equivalence_test.R`. The filenames track the manuscript for Figures 1–3 and then diverge: manuscript Figure 4 is `fig7_condition_comparison.png`, and Figures A.1–A.3 are `fig4_lag1_autocorrelation.png`, `fig5_irf_decay.png` and `fig6_kalman_latent_state.png`
-- `paper/`: manuscript
+- `paper/`: the submitted manuscript, as PDF and as the Word source
 
 ## Reproducing the analysis
 
@@ -87,5 +88,5 @@ day before, stay in the archived log and are excluded from every analysis.
 Released under [CC-BY 4.0](LICENSE).
 
 > Meng, M. (2026). *What organizes daily affect in one person: A 70-day N-of-1
-> characterization with a nightly melatonin probe.* Manuscript in preparation.
+> characterization with a nightly melatonin probe.* Manuscript submitted for publication.
 > https://github.com/haomeng797-ship-it/n-of-1-melatonin-study
