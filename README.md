@@ -2,6 +2,8 @@
 
 *A 70-day N-of-1 characterization with a nightly melatonin probe.*
 
+*Revise and resubmit at Journal for Person-Oriented Research*
+
 A 70-day single-subject self-experiment that tests whether nightly melatonin predicts
 daily affective state, modeling the individual as a dynamical system and treating
 melatonin as a probe of that system rather than as a candidate treatment. Internal
