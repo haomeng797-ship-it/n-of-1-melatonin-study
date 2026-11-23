@@ -3,7 +3,8 @@
 # Two one-sided tests (TOST) equivalence test for the melatonin mean effect on
 # daily mood, reported in Sections 2.5.10 and 3.3 of the manuscript. Complements
 # the between-condition Welch test by asking whether the effect is small enough
-# to be declared equivalent to zero within a pre-specified bound (SESOI).
+# to be declared equivalent to zero within a bound (SESOI) that was set at the
+# analysis stage, after data collection.
 # Reports SESOI = +/-5 points (primary; the smallest practically meaningful
 # day-level shift, ~0.9 of the daily mood SD) and a tighter +/-3 points.
 # Uses Lakens's TOSTER package; the effect is melatonin minus control.

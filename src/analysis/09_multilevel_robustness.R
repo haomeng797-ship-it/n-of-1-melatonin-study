@@ -87,8 +87,41 @@ stats <- data.frame(
             round(ag_m, 2), round(mc_m, 2))
 )
 write.csv(stats, "outputs/multilevel_fit_stats.csv", row.names = FALSE)
+# ---------- Within-day / between-day decomposition (Appendix B) ----------
+# Each internal variable is split into its day mean (centered at the sample
+# mean) and the deviation of each rating from that day mean.
+win$agency_day  <- ave(win$agency, win$study_day)
+win$meta_day    <- ave(win$metacognition, win$study_day)
+win$agency_wi   <- win$agency - win$agency_day
+win$meta_wi     <- win$metacognition - win$meta_day
+win$agency_btw  <- win$agency_day - ag_m
+win$meta_btw    <- win$meta_day - mc_m
+mwb <- lmer(mood ~ agency_wi + meta_wi + agency_btw + meta_btw + melatonin +
+              (1 | study_day), data = win, REML = TRUE)
+fwb  <- summary(mwb)$coefficients
+cwb  <- confint(mwb, parm = "beta_", method = "Wald")
+rwb  <- c("agency_wi", "meta_wi", "agency_btw", "meta_btw", "melatonin")
+tabwb <- data.frame(
+  Term = c("Agency, within day", "Metacognition, within day",
+           "Agency, between days", "Metacognition, between days", "Melatonin"),
+  beta = round(fwb[rwb, "Estimate"], 2),
+  SE   = round(fwb[rwb, "Std. Error"], 2),
+  CI95 = sprintf("[%.2f, %.2f]", cwb[rwb, 1], cwb[rwb, 2]),
+  p    = pfmt(fwb[rwb, "Pr(>|t|)"]),
+  row.names = NULL
+)
+# Same model with the prompt slot (morning, afternoon, evening) as a fixed effect
+hr <- as.integer(substr(win$datetime, 12, 13))
+win$slot <- cut(hr, c(-1, 12, 18, 24), labels = c("morning", "afternoon", "evening"))
+mslot <- lmer(mood ~ agency_wi + meta_wi + agency_btw + meta_btw + melatonin + slot +
+                (1 | study_day), data = win, REML = TRUE)
+fsl <- summary(mslot)$coefficients
+tabwb$beta_with_slot <- round(fsl[rwb, "Estimate"], 2)
+write.csv(tabwb, "outputs/multilevel_within_between.csv", row.names = FALSE)
+
 writeLines(capture.output(sessionInfo()), "outputs/multilevel_sessionInfo.txt")
 
 cat("\n=== Table B.1 (paste into manuscript) ===\n"); print(tab)
 cat("\n=== Fit statistics (Table B.1 note) ===\n"); print(stats)
-cat("\nWrote outputs/multilevel_table.csv, outputs/multilevel_fit_stats.csv\n")
+cat("\n=== Within-day / between-day decomposition ===\n"); print(tabwb)
+cat("\nWrote outputs/multilevel_table.csv, outputs/multilevel_fit_stats.csv, outputs/multilevel_within_between.csv\n")

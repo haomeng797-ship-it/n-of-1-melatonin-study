@@ -1,0 +1,6 @@
+key,value
+n,193.0
+within_15_min,143.0
+within_60_min,179.0
+beyond_60_min,14.0
+max_gap_hours,2.1

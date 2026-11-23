@@ -19,13 +19,14 @@ language.
 
 | Variable        | Prompt                              | Scale     |
 |-----------------|-------------------------------------|-----------|
-| `mood`          | Current emotional valence           | 0–100     |
-| `agency`        | Task progress / sense of forward motion | 0–100 |
-| `metacognition` | Awareness of current internal state | 0–100     |
+| `mood`          | "Mood(0-100)"                       | 0–100     |
+| `agency`        | "Agency: task progress feeling? (0-100)" | 0–100 |
+| `metacognition` | "Metacognition: awareness of your current state? (0-100)" | 0–100 |
 | `melatonin_taken` | Melatonin taken tonight?          | 0 / 1     |
 | `override_reason` | Deviation note                    | free text |
 
-Single-item Likert sliders were chosen to minimize response burden. Each
+Each rating is a single item, typed as a number; the numeric range is the only
+anchor shown. Single items were chosen to minimize response burden. Each
 prompt takes approximately 8–12 seconds to complete.
 
 ## 3. Output
